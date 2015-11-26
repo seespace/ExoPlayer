@@ -201,17 +201,12 @@ public class HlsChunkSource {
       int maxWidth = -1;
       int maxHeight = -1;
       // Select the variant that comes first in their original order in the master playlist.
-      int minOriginalVariantIndex = Integer.MAX_VALUE;
-      for (int i = 0; i < variants.length; i++) {
-        int originalVariantIndex = masterPlaylistVariants.indexOf(variants[i]);
-        if (originalVariantIndex < minOriginalVariantIndex) {
-          minOriginalVariantIndex = originalVariantIndex;
-          selectedVariantIndex = i;
-        }
-        Format variantFormat = variants[i].format;
+      for (Variant variant : variants) {
+        Format variantFormat = variant.format;
         maxWidth = Math.max(variantFormat.width, maxWidth);
         maxHeight = Math.max(variantFormat.height, maxHeight);
       }
+      selectedVariantIndex = 0;
       if (variants.length <= 1 || adaptiveMode == ADAPTIVE_MODE_NONE) {
         // We won't be adapting between different variants.
         this.adaptiveMaxWidth = MediaFormat.NO_VALUE;
